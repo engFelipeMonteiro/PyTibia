@@ -11,8 +11,10 @@ listOfCooldownsImage = loadFromRGBToGray(f'{currentPath}/listOfCooldownsImage.pn
 
 
 def test_should_return_None_when_cannot_get_left_arrows_position(mocker):
-    getLeftArrowsPositionSpy = mocker.patch('src.repositories.actionBar.extractors.getLeftArrowsPosition', return_value=None)
-    getRightArrowsPositionSpy = mocker.patch('src.repositories.actionBar.extractors.getRightArrowsPosition', return_value=None)
+    getLeftArrowsPositionSpy = mocker.patch(
+        'src.repositories.actionBar.extractors.getLeftArrowsPosition', return_value=None)
+    getRightArrowsPositionSpy = mocker.patch(
+        'src.repositories.actionBar.extractors.getRightArrowsPosition', return_value=None)
     cooldownsImage = getCooldownsImage(screenshotImage)
     expectedCooldownsImage = None
     assert cooldownsImage is expectedCooldownsImage

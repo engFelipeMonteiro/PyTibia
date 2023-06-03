@@ -51,7 +51,7 @@ def getCreaturesNames(content: GrayImage, filledSlotsCount: int) -> Generator[Cr
 
 
 # PERF: [0.5794668999999999, 3.9999999934536845e-07]
-@njit(cache=True, fastmath=True)
+#@njit(cache=True, fastmath=True)
 def getFilledSlotsCount(content: GrayImage) -> int:
     filledSlotsCount = 0
     for slotIndex in range(len(content) // 22):

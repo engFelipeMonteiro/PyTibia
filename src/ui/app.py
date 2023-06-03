@@ -12,6 +12,8 @@ class MyApp(MDApp):
         Config.set('graphics', 'resizable', False)
         Config.set('graphics', 'width', '800')
         Config.set('graphics', 'height', '800')
+        # change window size
+        Window.size = (350,100)
         return RootLayout()
 
     def on_start(self):

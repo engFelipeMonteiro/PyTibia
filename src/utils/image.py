@@ -47,11 +47,18 @@ def convertGraysToBlack(arr: np.ndarray) -> np.ndarray:
 def RGBtoGray(image: np.ndarray) -> GrayImage:
     return cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
+def RGBAtoGray(image: np.ndarray) -> GrayImage:
+    return cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
+
+def loadFromRGBAToGray(path: str) -> GrayImage:
+    return np.array(RGBAtoGray(load(path)), dtype=np.uint8)
 
 # TODO: add unit tests
 def loadFromRGBToGray(path: str) -> GrayImage:
     return np.array(RGBtoGray(load(path)), dtype=np.uint8)
 
+def loadAsGrayScale(path: str) -> GrayImage:
+    return cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 
 # TODO: add unit tests
 def save(arr: GrayImage, name: str):

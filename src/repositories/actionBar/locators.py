@@ -7,10 +7,10 @@ from .config import images
 # PERF: [0.062264100000000155, 2.8000000007466497e-06]
 @cacheObjectPosition
 def getLeftArrowsPosition(screenshot: GrayImage) -> Union[BBox, None]:
-    return locate(screenshot, images['arrows']['left'])
+    return locate(screenshot, images['arrows']['left'], scale=2.0)
 
 
 # PERF: [0.05522599999999933, 1.8999999991109462e-06]
 @cacheObjectPosition
 def getRightArrowsPosition(screenshot: GrayImage) -> Union[BBox, None]:
-    return locate(screenshot, images['arrows']['right'])
+    return locate(screenshot, images['arrows']['right'], scale=2.0)

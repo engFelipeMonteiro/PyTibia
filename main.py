@@ -3,7 +3,7 @@ import multiprocessing
 import numpy as np
 import pyautogui
 from time import sleep
-import win32gui
+# import win32gui
 from rx import interval, operators
 from rx.scheduler import ThreadPoolScheduler
 from src.gameplay.cavebot import resolveCavebotTasks, shouldAskForCavebotTasks
@@ -25,10 +25,11 @@ from src.gameplay.healing.observers.healingPriority import healingPriorityObserv
 from src.repositories.gameWindow.creatures import getClosestCreature
 from src.repositories.radar.core import getCoordinate
 from src.repositories.radar.typings import Waypoint
-from src.utils.core import getScreenshot
+from src.utils.core import getScreenshot, getScreenshot_osx
 from src.ui.app import MyApp
 
 
+OS = 'osx'
 pyautogui.FAILSAFE = False
 pyautogui.PAUSE = 0
 
@@ -43,18 +44,32 @@ def main():
         win32gui.ShowWindow(hwnd, win32gui.SW_MINIMIZE)
 
     def maximizeWindow(hwnd):
-        win32gui.ShowWindow(hwnd, 3)
+        if OS == 'osx':
+            hwnd.unhide()
+        else:
+            win32gui.ShowWindow(hwnd, 3)
 
     def focusWindow(hwnd):
-        win32gui.SetForegroundWindow(hwnd)
+        if OS == 'osx':
+            hwnd.unhide()
+        else:
+            win32gui.SetForegroundWindow(hwnd)
 
     def handleGameData(_):
         global gameContext
         if gameContext['window'] is None:
-            gameContext['window'] = win32gui.FindWindow(None, 'Tibia - Lucas Monstro')
+            if OS == 'osx':
+                from AppKit import NSWorkspace
+                from AppKit import NSWorkspace, NSApplicationActivateIgnoringOtherApps
+                #apps = NSWorkspace.sharedWorkspace().runningApplications()
+                #gameContext['window'] = [ x for x in apps if x.localizedName() == 'Tibia'][0]
+                #gameContext['window'].activateWithOptions_(NSApplicationActivateIgnoringOtherApps)
+            else:
+                import win32gui
+                gameContext['window'] = win32gui.FindWindow(None, 'Tibia - Lucas Monstro')
         if gameContext['pause']:
             return gameContext
-        gameContext = setScreenshot(gameContext)
+        gameContext = setScreenshot(gameContext, is_osx=OS=='osx')
         gameContext = setRadarMiddleware(gameContext)
         gameContext = setChatTabsMiddleware(gameContext)
         gameContext = setBattleListMiddleware(gameContext)
@@ -188,7 +203,7 @@ def main():
             focusWindow(gameContext['window'])
 
         def play(self):
-            self.focusInTibia()
+            #self.focusInTibia()
             sleep(1)
             gameContext['pause'] = False
 
@@ -202,6 +217,7 @@ def main():
         def getCoordinate(self):
             global gameContext
             screenshot = getScreenshot()
+            
             coordinate = getCoordinate(screenshot, previousCoordinate=gameContext['radar']['previousCoordinate'])
             return coordinate
 

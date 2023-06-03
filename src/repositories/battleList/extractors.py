@@ -6,15 +6,15 @@ from .locators import getContainerBottomBarPosition, getContainerTopBarPosition
 
 
 # PERF: [0.05485419999999941, 4.39999999990448e-06]
-def getContent(screenshot: GrayImage) -> Union[GrayImage, None]:
-    containerTopBarPos = getContainerTopBarPosition(screenshot)
+def getContent(screenshot: GrayImage, scale=2) -> Union[GrayImage, None]:
+    containerTopBarPos = getContainerTopBarPosition(screenshot, scale=scale)
     if containerTopBarPos is None:
         return None
     (contentLeft, contentTop, _, contentHeight) = containerTopBarPos
     startingY = contentTop + contentHeight
     endingX = contentLeft + 156
     content = screenshot[startingY:, contentLeft:endingX]
-    containerBottomBarPos = getContainerBottomBarPosition(content)
+    containerBottomBarPos = getContainerBottomBarPosition(content, scale=scale)
     if containerBottomBarPos is None:
         return None
     return content[:containerBottomBarPos[1] - 11, :]

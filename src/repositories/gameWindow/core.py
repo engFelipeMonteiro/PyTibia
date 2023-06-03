@@ -12,29 +12,29 @@ def get_global_game_cache_window_cache() -> Dict:
 
 # TODO: add unit tests
 # TODO: add perf
-def getLeftArrowPosition(screenshot: GrayImage) -> Union[BBox, None]:
+def getLeftArrowPosition(screenshot: GrayImage, scale=2.0) -> Union[BBox, None]:
     gameWindowCache = get_global_game_cache_window_cache()
     if gameWindowCache['left']['position'] is not None:
         leftArrowImage = images['arrows'][gameWindowCache['left']['arrow']]
         leftArrowImageHash = hashit(leftArrowImage)
         if arrowsImagesHashes.get(leftArrowImageHash, None) is not None:
             return gameWindowCache['left']['position']
-    leftGameWindow01Position = locate(screenshot, images['arrows']['leftGameWindow01'])
+    leftGameWindow01Position = locate(screenshot, images['arrows']['leftGameWindow01'], scale=scale)
     if leftGameWindow01Position is not None:
         gameWindowCache['left']['arrow'] = 'leftGameWindow01'
         gameWindowCache['left']['position'] = leftGameWindow01Position
         return leftGameWindow01Position
-    leftGameWindow11Position = locate(screenshot, images['arrows']['leftGameWindow11'])
+    leftGameWindow11Position = locate(screenshot, images['arrows']['leftGameWindow11'], scale=scale)
     if leftGameWindow11Position is not None:
         gameWindowCache['left']['arrow'] = 'leftGameWindow11'
         gameWindowCache['left']['position'] = leftGameWindow11Position
         return leftGameWindow11Position
-    leftGameWindow10Position = locate(screenshot, images['arrows']['leftGameWindow10'])
+    leftGameWindow10Position = locate(screenshot, images['arrows']['leftGameWindow10'], scale=scale)
     if leftGameWindow10Position is not None:
         gameWindowCache['left']['arrow'] = 'leftGameWindow10'
         gameWindowCache['left']['position'] = leftGameWindow10Position
         return leftGameWindow10Position
-    leftGameWindow00Position = locate(screenshot, images['arrows']['leftGameWindow00'])
+    leftGameWindow00Position = locate(screenshot, images['arrows']['leftGameWindow00'], scale=scale)
     if leftGameWindow00Position is not None:
         gameWindowCache['left']['arrow'] = 'leftGameWindow00'
         gameWindowCache['left']['position'] = leftGameWindow00Position

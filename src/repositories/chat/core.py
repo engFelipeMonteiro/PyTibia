@@ -90,8 +90,8 @@ def getLootLines(screenshot: GrayImage) -> GrayImage:
 # TODO: add unit tests
 # TODO: add perf
 @cacheObjectPosition
-def getChatMenuPosition(screenshot: GrayImage) -> Union[BBox, None]:
-    return locate(screenshot, chatMenuImg)
+def getChatMenuPosition(screenshot: GrayImage, scale=2.0) -> Union[BBox, None]:
+    return locate(screenshot, chatMenuImg, scale=scale)
 
 
 # TODO: add unit tests
